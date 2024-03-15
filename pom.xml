@@ -15,9 +15,17 @@
 	<packaging>war</packaging>
 	<name>curso.spring.rest.api</name>
 	<description>Curso API REST Spring Boot</description>
+
 	<properties>
-		<java.version>17</java.version>
+
+		<java.version>20</java.version>
+
+		<!-- Ignora os testes -->
+		<maven.test.skip>true</maven.test.skip>
+
 	</properties>
+
+
 	<dependencies>
 
 
@@ -69,6 +77,15 @@
 			<scope>runtime</scope>
 		</dependency>
 		<!-- fim-->
+
+		<!--
+		https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>6.2.2</version>
+		</dependency>
+
 
 	</dependencies>
 

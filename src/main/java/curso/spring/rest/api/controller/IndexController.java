@@ -1,11 +1,14 @@
 package curso.spring.rest.api.controller;
 
+import java.io.File;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import curso.spring.rest.api.model.Usuario;
 import curso.spring.rest.api.repository.UsuarioRepository;
 
+//@CrossOrigin(origins = "*") /*Controle de requisições*/
 @RestController /* Arquitetura REST */
 @RequestMapping(value = "/usuario")
 public class IndexController {
@@ -27,7 +31,7 @@ public class IndexController {
 
 	/* Serviços RESTful */
 	
-	/*Visualizar por ID*/
+	/*GET Visualizar por ID*/
 	@GetMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<Usuario> init(@PathVariable (value = "id") Long id) {
 
@@ -45,7 +49,8 @@ public class IndexController {
 		return "ok";
 	}
 	
-	/*Visualizar todos os usuários*/
+	/*GET Visualizar todos os usuários*/
+	//@CrossOrigin(origins = "*") /*CrossOrigin apenas para um end-point*/
 	@GetMapping(value = "/", produces = "application/json")
 	public ResponseEntity<List<Usuario>> usuario() {
 
@@ -55,9 +60,15 @@ public class IndexController {
 	}
 	
 	
-	/*Criar usuário*/
+	/*POST Criar usuário*/
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> criar(@RequestBody Usuario usuario) {
+		
+		/*Associando telefones a usuario*/
+		/*"Amarrando" telefone a usuário*/
+		for (int pos=0; pos < usuario.getTelefones().size(); pos++) {
+			usuario.getTelefones().get(pos).setUsuario(usuario);
+		}
 		
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 		
@@ -67,6 +78,12 @@ public class IndexController {
 	/*PUT - ATUALIZAR usuário*/
 	@PutMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario) {
+		
+		/*Associando telefones a usuario*/
+		/*"Amarrando" telefone a usuário*/
+		for (int pos=0; pos < usuario.getTelefones().size(); pos++) {
+			usuario.getTelefones().get(pos).setUsuario(usuario);
+		}
 		
 		/*O .save salva e atualiza (sabe é que pra atualizar pois esta recebendo o id)*/
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
