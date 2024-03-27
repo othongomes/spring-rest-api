@@ -57,7 +57,7 @@ public class Usuario implements UserDetails  {
 	foreignKey = @ForeignKey(name = "role_fk", value = ConstraintMode.CONSTRAINT)))
 	private List<Role> roles; /*Papeis ou acessos*/
 	
-	
+
 	
 	
 	
